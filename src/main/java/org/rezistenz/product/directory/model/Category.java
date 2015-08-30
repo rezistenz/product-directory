@@ -7,13 +7,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="category")
 public class Category {
+	
+	@TableGenerator(
+			name="category_gen",
+			table="sequences",
+			pkColumnName="name",
+			valueColumnName="value",
+			pkColumnValue="category",
+			initialValue=1000,
+			allocationSize=100
+		)
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(
+		strategy = GenerationType.TABLE, 
+		generator="category_gen"
+	)
 	private Long id;
 	
 	@NotNull

@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -55,6 +56,25 @@ public class ProductRpositoryImpl implements ProductRepository {
 		criteriaQuery.select(enityRoot).where(
 				criteria
 			);
+		
+		String orderDir = (String) params.get("order_dir");
+		if(orderDir == null){
+			orderDir="desc";
+		}
+		String orderCol = (String) params.get("order_col");
+		if(orderCol == null){
+			orderCol="id";
+		}
+		
+		
+		Path<Object> col = enityRoot.get(orderCol);
+			
+		if(orderDir.equals("asc")){
+			criteriaQuery.orderBy(criteriaBuilder.asc(col));
+		}else if(orderDir.equals("desc")){
+			criteriaQuery.orderBy(criteriaBuilder.desc(col));
+		}
+		
 		
 		TypedQuery<Product> query = entityManager.createQuery(criteriaQuery);
 		

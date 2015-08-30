@@ -1,6 +1,8 @@
 package org.rezistenz.product.directory.persistence.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -28,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ProductRpositoryImplTest {
 
-	private static final int DEFAULT_PRODUCTS_COUNT = 3;
+	private static final int DEFAULT_PRODUCTS_COUNT = 7;
 
 	private static Logger log=Logger.getLogger(ProductRpositoryImplTest.class.getName());
 
@@ -43,11 +45,7 @@ public class ProductRpositoryImplTest {
 
 	@Before
 	public void setUp() throws Exception {
-		for(int index = 0; index < DEFAULT_PRODUCTS_COUNT; index++){
-			Product product=new Product();
-			product.setName("product_"+index);
-			productRepository.add(product);
-		}
+		
 	}
 
 	@Test

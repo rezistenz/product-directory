@@ -15,7 +15,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"/META-INF/applicationContextWeb.xml"})
+@ContextConfiguration({
+	"/META-INF/applicationContextService.xml",
+	"/META-INF/applicationContextWeb.xml"})
 public class ProductControllerTest {
 	
 	@Autowired

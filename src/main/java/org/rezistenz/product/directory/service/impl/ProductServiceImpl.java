@@ -1,12 +1,14 @@
 package org.rezistenz.product.directory.service.impl;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
-import org.rezistenz.product.directory.model.Category;
 import org.rezistenz.product.directory.model.Product;
 import org.rezistenz.product.directory.persistence.ProductRepository;
 import org.rezistenz.product.directory.service.ProductService;
+import org.rezistenz.product.directory.web.dto.PagingInfo;
+import org.rezistenz.product.directory.web.dto.ProductFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,29 +23,34 @@ public class ProductServiceImpl implements ProductService {
 	public void setProductRepository(ProductRepository productRepository){
 		this.productRepository=productRepository;
 	}
-	
-	@Override
-	public Product add(Product entity) {
-		return productRepository.add(entity);
-	}
 
 	@Override
-	public Product udpate(Product entity) {
-		return productRepository.udpate(entity);
-	}
-
-	@Override
-	public Product findByPK(Long primaryKey) {
-		return productRepository.findByPK(primaryKey);
-	}
-
-	@Override
-	public Collection<Product> findByParams(Map<String, Object> params) {
+	public Collection<Product> findProducts(ProductFilter productFilter,
+			PagingInfo pagingInfo) {
+		Map<String, Object> params = getParamsMap(productFilter);
+		
+		params.put("order_dir", pagingInfo.getOrderDir());
+		params.put("order_col", pagingInfo.getOrderCol());
+		
+		params.put("page_size", pagingInfo.getPageSize());
+		params.put("page_index", pagingInfo.getPageIndex());
+		
 		return productRepository.findByParams(params);
 	}
 
+	private Map<String, Object> getParamsMap(ProductFilter productFilter) {
+		Map<String, Object> params=new HashMap<String, Object>();
+		
+		params.put("category_name", productFilter.getCategoryName());
+		
+		return params;
+	}
+
 	@Override
-	public Long findByParamsCount(Map<String, Object> params) {
+	public long getProductsCount(ProductFilter productFilter) {
+		Map<String, Object> params = getParamsMap(productFilter);
+		
 		return productRepository.findByParamsCount(params);
 	}
+	
 }

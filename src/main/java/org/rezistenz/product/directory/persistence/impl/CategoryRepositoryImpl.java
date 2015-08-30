@@ -13,7 +13,6 @@ import javax.persistence.criteria.Root;
 
 import org.rezistenz.product.directory.model.Category;
 import org.rezistenz.product.directory.persistence.CategoryRepository;
-import org.rezistenz.product.directory.persistence.EnityRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository

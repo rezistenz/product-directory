@@ -1,6 +1,8 @@
 package org.rezistenz.product.directory.persistence.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -14,9 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.rezistenz.product.directory.model.Category;
-import org.rezistenz.product.directory.model.Product;
 import org.rezistenz.product.directory.persistence.CategoryRepository;
-import org.rezistenz.product.directory.persistence.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CategoryRepositoryImplTest {
 
-	private static final int DEFAULT_CATEGORIES_COUNT = 3;
+	private static final int DEFAULT_CATEGORIES_COUNT = 5;
 	
 	private static Logger log=Logger.getLogger(CategoryRepositoryImplTest.class.getName());
 	
@@ -39,11 +39,7 @@ public class CategoryRepositoryImplTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		for(int index = 0; index < DEFAULT_CATEGORIES_COUNT; index++){
-			Category item=new Category();
-			item.setName("category_"+index);
-			categoryRepository.add(item);
-		}
+		
 	}
 
 	@Test
