@@ -11,7 +11,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>4.1.4.RELEASE</spring.version>
-		<postgres.jdbc.driver.version>9.2-1003-jdbc4</postgres.jdbc.driver.version>
+		<postgres.jdbc.driver.version>9.2-1004-jdbc41</postgres.jdbc.driver.version>
 		<hibernate.version>4.3.1.Final</hibernate.version>
 	</properties>
 
@@ -103,6 +103,12 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>displaytag</groupId>
+			<artifactId>displaytag</artifactId>
 			<version>1.2</version>
 		</dependency>
 

@@ -2,7 +2,7 @@ package org.rezistenz.product.directory.web.dto;
 
 public class PagingInfo{
 
-	private int pageIndex;
+	private int pageNum;
 	private int pageSize;
 
 	private long itemsCount;
@@ -11,11 +11,14 @@ public class PagingInfo{
 	private String orderCol;
 
 	public int getPageIndex() {
-		return pageIndex;
+		return pageNum>0 ? pageNum-1 : 0;
+	}
+	public int getPageNum() {
+		return pageNum;
 	}
 
-	public void setPageIndex(int pageIndex) {
-		this.pageIndex = pageIndex;
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
 	}
 
 	public int getPageSize() {
@@ -28,6 +31,10 @@ public class PagingInfo{
 
 	public long getItemsCount() {
 		return itemsCount;
+	}
+	
+	public int getSize() {
+		return (int) itemsCount;
 	}
 
 	public void setItemsCount(long itemsCount) {
@@ -57,10 +64,9 @@ public class PagingInfo{
 		long countPages = (long) Math.ceil( itemsCount / (double) pageSize);
 		return countPages;
 	}
-
 	@Override
 	public String toString() {
-		return "PagingInfo [pageIndex=" + pageIndex + ", pageSize=" + pageSize
+		return "PagingInfo [pageNum=" + pageNum + ", pageSize=" + pageSize
 				+ ", itemsCount=" + itemsCount + ", orderDir=" + orderDir
 				+ ", orderCol=" + orderCol + "]";
 	}

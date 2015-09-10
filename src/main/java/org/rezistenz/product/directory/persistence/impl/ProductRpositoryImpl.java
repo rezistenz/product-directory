@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -67,7 +68,12 @@ public class ProductRpositoryImpl implements ProductRepository {
 		}
 		
 		
-		Path<Object> col = enityRoot.get(orderCol);
+		Path<Object> col = null;
+		if(orderCol.equals("category_name")){
+			col=enityRoot.join("category", JoinType.LEFT).get("name");
+		}else{
+			col=enityRoot.get(orderCol);
+		}
 			
 		if(orderDir.equals("asc")){
 			criteriaQuery.orderBy(criteriaBuilder.asc(col));
@@ -99,7 +105,7 @@ public class ProductRpositoryImpl implements ProductRepository {
 			criteria.getExpressions().add(
 					criteriaBuilder.like(
 							criteriaBuilder.lower(
-									enityRoot.<Category>get("category").<String>get("name")
+									enityRoot.join("category", JoinType.LEFT).<String>get("name")
 								), 
 							"%"+categoryName.toLowerCase()+"%"
 						)

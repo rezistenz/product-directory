@@ -1,12 +1,57 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
 
-</body>
-</html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
+<link rel="stylesheet"href="<c:url value="/resources/css/displaytag-table.css"/>"></link>
+
+<c:url var="searchURL" value="/products/list"/>
+
+<form:form commandName="productFilter" action="${searchURL}">
+	<spring:message code="category.name"/>
+	<form:input path="categoryName"/>
+	<input type="submit" value="<spring:message code="filter"/>" />
+</form:form>
+
+<display:table 
+	list="${productPagedList}"
+	requestURI="/products/list"
+	sort="external">
+	<display:column 
+		titleKey="product.id"
+		property="id" 
+		sortProperty="id" 
+		sortable="true"/>
+	<display:column 
+		titleKey="product.name" 
+		property="name" 
+		sortProperty="name" 
+		sortable="true"/>
+	<display:column 
+		titleKey="category.name" 
+		property="category.name" 
+		sortProperty="category_name" 
+		sortable="true"/>
+	<display:column 
+		titleKey="product.producer"  
+		property="producer" 
+		sortProperty="producer" 
+		sortable="true"/>
+	<display:column 
+		titleKey="product.price" 
+		property="price" 
+		sortProperty="price" 
+		sortable="true" 
+		format="{0,number,0.00} RUB"/>
+	<display:column 
+		titleKey="product.createDate"  
+		property="createDate.time" 
+		sortProperty="createDate" 
+		sortable="true" 
+		format="{0,date,dd.MM.yyyy}"/>
+</display:table>
+
+

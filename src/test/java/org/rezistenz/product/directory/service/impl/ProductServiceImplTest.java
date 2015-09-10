@@ -84,13 +84,13 @@ public class ProductServiceImplTest {
 	
 	@Test
 	public void testFindProductsWithPagingFirstPage() {
-		int pageIndex = 0;
+		int pageNum = 1;
 		
 		ProductFilter productFilter=new ProductFilter();
 		
 		PagingInfo pagingInfo=new PagingInfo();
 		pagingInfo.setPageSize(PAGE_SIZE);
-		pagingInfo.setPageIndex(pageIndex);
+		pagingInfo.setPageNum(pageNum);
 		
 		Collection<Product> products=productService.findProducts(productFilter, pagingInfo);
 		
@@ -108,13 +108,13 @@ public class ProductServiceImplTest {
 		int countPages = (int) Math.ceil( DEFAULT_PRODUCTS_COUNT / (double)PAGE_SIZE);
 		int lastPageIndex = countPages - 1;
 		
-		int pageIndex = lastPageIndex;
+		int pageNum = lastPageIndex+1;
 		
 		ProductFilter productFilter=new ProductFilter();
 		
 		PagingInfo pagingInfo=new PagingInfo();
 		pagingInfo.setPageSize(PAGE_SIZE);
-		pagingInfo.setPageIndex(pageIndex);
+		pagingInfo.setPageNum(pageNum);
 		
 		Collection<Product> products=productService.findProducts(productFilter, pagingInfo);
 		

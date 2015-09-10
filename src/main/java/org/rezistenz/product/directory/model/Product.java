@@ -17,6 +17,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name="product")
 public class Product {
@@ -41,7 +43,8 @@ public class Product {
 	@Column(length=200)
 	private String name;
 	
-	@Lob
+	@Column(length=10000,
+			columnDefinition="TEXT")
 	private String description;
 	
 	@Column(length=500)
@@ -52,7 +55,8 @@ public class Product {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar createDate;
 	
-	@Lob
+	@Column(length=10000,
+			columnDefinition="TEXT")
 	private String imageUrl;
 	
 	@ManyToOne

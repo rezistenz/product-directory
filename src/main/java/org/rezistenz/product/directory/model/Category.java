@@ -34,7 +34,8 @@ public class Category {
 	@Column(length=200)
 	private String name;
 	
-	@Lob
+	@Column(length=10000,
+			columnDefinition="TEXT")
 	private String description;
 
 	public Long getId() {

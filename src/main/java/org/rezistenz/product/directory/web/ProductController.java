@@ -1,12 +1,14 @@
 package org.rezistenz.product.directory.web;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.rezistenz.product.directory.model.Product;
 import org.rezistenz.product.directory.service.ProductService;
 import org.rezistenz.product.directory.web.dto.PagingInfo;
 import org.rezistenz.product.directory.web.dto.ProductFilter;
+import org.rezistenz.product.directory.web.dto.ProductPagedList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,14 +30,19 @@ public class ProductController {
 	@RequestMapping({"","/list"})
 	public String list(
 			ProductFilter productFilter,
-			PagingInfo pagingInfo, 
+			PagingInfo pagingInfo,
 			Model model){
 		
-		log.info(productFilter.toString());
 		log.info(pagingInfo.toString());
 		
 		if(pagingInfo.getPageSize() == 0){
 			pagingInfo.setPageSize(5);
+		}
+		if(pagingInfo.getOrderDir() == null || pagingInfo.getOrderDir().isEmpty()){
+			pagingInfo.setOrderDir("desc");
+		}
+		if(pagingInfo.getOrderCol() == null || pagingInfo.getOrderCol().isEmpty()){
+			pagingInfo.setOrderCol("id");
 		}
 		
 		long productsCount=productService.getProductsCount(productFilter);
@@ -48,6 +55,8 @@ public class ProductController {
 		model.addAttribute("pagingInfo", pagingInfo);
 		
 		model.addAttribute("products", products);
+		
+		model.addAttribute("productPagedList", new ProductPagedList(pagingInfo, (List<Product>)products));
 		
 		return "products/list";
 	}
