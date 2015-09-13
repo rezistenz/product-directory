@@ -11,7 +11,7 @@ public class PagingInfo{
 	private String orderCol;
 
 	public int getPageIndex() {
-		return pageNum>0 ? pageNum-1 : 0;
+		return pageNum > 0 ? pageNum-1 : 0;
 	}
 	public int getPageNum() {
 		return pageNum;

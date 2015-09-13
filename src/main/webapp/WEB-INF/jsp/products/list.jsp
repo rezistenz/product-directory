@@ -10,11 +10,20 @@
 
 <c:url var="searchURL" value="/products/list"/>
 
-<form:form commandName="productFilter" action="${searchURL}">
+<form action="${searchURL}">
 	<spring:message code="category.name"/>
-	<form:input path="categoryName"/>
+	<input name="categoryName" value="${productFilter.categoryName}"/>
+	
+	<spring:message code="list.page.size"/>
+	<select name="pageSize">
+		<option value="5" ${(pagingInfo.pageSize == 5)?'selected="selected"':''}>5</option>
+		<option value="10" ${(pagingInfo.pageSize == 10)?'selected="selected"':''}>10</option>
+		<option value="15" ${(pagingInfo.pageSize == 15)?'selected="selected"':''}>15</option>
+		<option value="20" ${(pagingInfo.pageSize == 20)?'selected="selected"':''}>20</option>
+	</select>
+	
 	<input type="submit" value="<spring:message code="filter"/>" />
-</form:form>
+</form>
 
 <display:table 
 	list="${productPagedList}"
@@ -45,7 +54,7 @@
 		property="price" 
 		sortProperty="price" 
 		sortable="true" 
-		format="{0,number,0.00} RUB"/>
+		format="{0,number,0.00}"/>
 	<display:column 
 		titleKey="product.createDate"  
 		property="createDate.time" 
