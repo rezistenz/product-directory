@@ -1,6 +1,6 @@
 package org.rezistenz.product.directory.service.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 import java.util.logging.Logger;
@@ -8,11 +8,10 @@ import java.util.logging.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.rezistenz.product.directory.model.Product;
-import org.rezistenz.product.directory.persistence.impl.ProductRpositoryImplTest;
 import org.rezistenz.product.directory.service.ProductService;
 import org.rezistenz.product.directory.web.dto.PagingInfo;
 import org.rezistenz.product.directory.web.dto.ProductFilter;
+import org.rezistenz.product.directory.web.dto.ProductListItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -46,7 +45,7 @@ public class ProductServiceImplTest {
 		
 		PagingInfo pagingInfo=new PagingInfo();
 		
-		Collection<Product> products=productService.findProducts(productFilter, pagingInfo);
+		Collection<ProductListItem> products=productService.findProducts(productFilter, pagingInfo);
 		
 		assertTrue(products.size() == DEFAULT_PRODUCTS_COUNT);
 	}
@@ -58,7 +57,7 @@ public class ProductServiceImplTest {
 		
 		PagingInfo pagingInfo=new PagingInfo();
 		
-		Collection<Product> products=productService.findProducts(productFilter, pagingInfo);
+		Collection<ProductListItem> products=productService.findProducts(productFilter, pagingInfo);
 		
 		assertTrue(products.size() == PRODUCTS_CATEGORY_COMPUTERS_COUNT);
 	}
@@ -92,11 +91,11 @@ public class ProductServiceImplTest {
 		pagingInfo.setPageSize(PAGE_SIZE);
 		pagingInfo.setPageNum(pageNum);
 		
-		Collection<Product> products=productService.findProducts(productFilter, pagingInfo);
+		Collection<ProductListItem> products=productService.findProducts(productFilter, pagingInfo);
 		
 		log.info("products.size(): "+products.size());
 		
-		for (Product product : products) {
+		for (ProductListItem product : products) {
 			log.info(product.toString());
 		}
 		
@@ -116,11 +115,11 @@ public class ProductServiceImplTest {
 		pagingInfo.setPageSize(PAGE_SIZE);
 		pagingInfo.setPageNum(pageNum);
 		
-		Collection<Product> products=productService.findProducts(productFilter, pagingInfo);
+		Collection<ProductListItem> products=productService.findProducts(productFilter, pagingInfo);
 		
 		log.info("products.size(): "+products.size());
 		
-		for (Product product : products) {
+		for (ProductListItem product : products) {
 			log.info(product.toString());
 		}
 		

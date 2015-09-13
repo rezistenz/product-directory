@@ -4,10 +4,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.rezistenz.product.directory.model.Product;
 import org.rezistenz.product.directory.service.ProductService;
 import org.rezistenz.product.directory.web.dto.PagingInfo;
 import org.rezistenz.product.directory.web.dto.ProductFilter;
+import org.rezistenz.product.directory.web.dto.ProductListItem;
 import org.rezistenz.product.directory.web.dto.ProductPagedList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,14 +49,14 @@ public class ProductController {
 		
 		pagingInfo.setItemsCount(productsCount);
 		
-		Collection<Product> products=productService.findProducts(productFilter, pagingInfo);
+		Collection<ProductListItem> products=productService.findProducts(productFilter, pagingInfo);
 		
 		model.addAttribute("productFilter", productFilter);
 		model.addAttribute("pagingInfo", pagingInfo);
 		
 		model.addAttribute("products", products);
 		
-		model.addAttribute("productPagedList", new ProductPagedList(pagingInfo, (List<Product>)products));
+		model.addAttribute("productPagedList", new ProductPagedList(pagingInfo, (List<ProductListItem>)products));
 		
 		return "products/list";
 	}

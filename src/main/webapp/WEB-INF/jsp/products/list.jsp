@@ -41,7 +41,7 @@
 		sortable="true"/>
 	<display:column 
 		titleKey="category.name" 
-		property="category.name" 
+		property="categoryName" 
 		sortProperty="category_name" 
 		sortable="true"/>
 	<display:column 

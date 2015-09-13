@@ -4,11 +4,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.rezistenz.product.directory.model.Product;
 import org.rezistenz.product.directory.persistence.ProductRepository;
 import org.rezistenz.product.directory.service.ProductService;
 import org.rezistenz.product.directory.web.dto.PagingInfo;
 import org.rezistenz.product.directory.web.dto.ProductFilter;
+import org.rezistenz.product.directory.web.dto.ProductListItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,9 +23,10 @@ public class ProductServiceImpl implements ProductService {
 	public void setProductRepository(ProductRepository productRepository){
 		this.productRepository=productRepository;
 	}
-
+	
 	@Override
-	public Collection<Product> findProducts(ProductFilter productFilter,
+	@Transactional(readOnly=true)
+	public Collection<ProductListItem> findProducts(ProductFilter productFilter,
 			PagingInfo pagingInfo) {
 		Map<String, Object> params = getParamsMap(productFilter);
 		
@@ -37,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
 		
 		return productRepository.findByParams(params);
 	}
-
+	
 	private Map<String, Object> getParamsMap(ProductFilter productFilter) {
 		Map<String, Object> params=new HashMap<String, Object>();
 		
@@ -47,6 +48,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public long getProductsCount(ProductFilter productFilter) {
 		Map<String, Object> params = getParamsMap(productFilter);
 		

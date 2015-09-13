@@ -19,6 +19,7 @@ import org.rezistenz.product.directory.model.Category;
 import org.rezistenz.product.directory.model.Product;
 import org.rezistenz.product.directory.persistence.CategoryRepository;
 import org.rezistenz.product.directory.persistence.ProductRepository;
+import org.rezistenz.product.directory.web.dto.ProductListItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -113,11 +114,11 @@ public class ProductRpositoryImplTest {
 	public void testFindByParamsEmpty(){
 		Map<String, Object> params=new HashMap<String, Object>();
 
-		Collection<Product> products=productRepository.findByParams(params);
+		Collection<ProductListItem> products=productRepository.findByParams(params);
 
 		log.info("products.size():"+products.size());
 
-		for (Product product : products) {
+		for (ProductListItem product : products) {
 			log.info(product.toString());
 		}
 
@@ -151,20 +152,20 @@ public class ProductRpositoryImplTest {
 
 		params.put("category_name", product_category_4_name);
 
-		Collection<Product> products=productRepository.findByParams(params);
+		Collection<ProductListItem> products=productRepository.findByParams(params);
 
 		log.info("products.size():"+products.size());
 
-		for (Product item : products) {
+		for (ProductListItem item : products) {
 			log.info(item.toString());
 		}
 
 		assertFalse(products.isEmpty());
 		assertTrue(products.size() == 1);
 
-		Product firstFoundedProd=products.iterator().next();
+		ProductListItem firstFoundedProd=products.iterator().next();
 
 		assertTrue(firstFoundedProd.getName().equals(product_4_name));
-		assertTrue(firstFoundedProd.getCategory().getName().equals(product_category_4_name));
+		assertTrue(firstFoundedProd.getCategoryName().equals(product_category_4_name));
 	}
 }

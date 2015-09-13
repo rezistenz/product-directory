@@ -1,5 +1,7 @@
 package org.rezistenz.product.directory.persistence.impl;
 
+import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Map;
 
@@ -8,14 +10,15 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.rezistenz.product.directory.model.Category;
 import org.rezistenz.product.directory.model.Product;
 import org.rezistenz.product.directory.persistence.ProductRepository;
+import org.rezistenz.product.directory.web.dto.ProductListItem;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -45,16 +48,26 @@ public class ProductRpositoryImpl implements ProductRepository {
 	}
 
 	@Override
-	public Collection<Product> findByParams(Map<String, Object> params) {
+	public Collection<ProductListItem> findByParams(Map<String, Object> params) {
 		
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		
-		CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
+		CriteriaQuery<ProductListItem> criteriaQuery = criteriaBuilder.createQuery(ProductListItem.class);
+		
 		Root<Product> enityRoot = criteriaQuery.from(Product.class);
 		
 		Predicate criteria = buildCriteria(criteriaBuilder, enityRoot, params);
 		
-		criteriaQuery.select(enityRoot).where(
+		Join<Object, Object> categoryJoin = enityRoot.join("category", JoinType.LEFT);
+		
+		criteriaQuery.multiselect(
+				enityRoot.<Long>get("id"),
+				enityRoot.<String>get("name"),
+				categoryJoin.<String>get("name"),
+				enityRoot.<String>get("producer"),
+				enityRoot.<BigDecimal>get("price"),
+				enityRoot.<Calendar>get("createDate")
+			).where(
 				criteria
 			);
 		
@@ -70,7 +83,7 @@ public class ProductRpositoryImpl implements ProductRepository {
 		
 		Path<Object> col = null;
 		if(orderCol.equals("category_name")){
-			col=enityRoot.join("category", JoinType.LEFT).get("name");
+			col=categoryJoin.get("name");
 		}else{
 			col=enityRoot.get(orderCol);
 		}
@@ -82,7 +95,7 @@ public class ProductRpositoryImpl implements ProductRepository {
 		}
 		
 		
-		TypedQuery<Product> query = entityManager.createQuery(criteriaQuery);
+		TypedQuery<ProductListItem> query = entityManager.createQuery(criteriaQuery);
 		
 		Integer pageSize=(Integer) params.get("page_size");
 		Integer pageIndex=(Integer) params.get("page_index");
@@ -94,7 +107,7 @@ public class ProductRpositoryImpl implements ProductRepository {
 		
 		return query.getResultList();
 	}
-
+	
 	private Predicate buildCriteria(CriteriaBuilder criteriaBuilder,
 			Root<Product> enityRoot, Map<String, Object> params) {
 		String categoryName = (String) params.get("category_name");

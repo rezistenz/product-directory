@@ -6,18 +6,18 @@ import java.util.List;
 
 import org.displaytag.pagination.PaginatedList;
 import org.displaytag.properties.SortOrderEnum;
-import org.rezistenz.product.directory.model.Product;
 
 public class ProductPagedList implements PaginatedList {
 
-	private final PagingInfo pagingInfo;
-	private final Collection<Product> products;
+	private PagingInfo pagingInfo;
+	private Collection<ProductListItem> productListItem;
 	
-	public ProductPagedList(PagingInfo pagingInfo, Collection<Product> products){
+	public ProductPagedList(PagingInfo pagingInfo,
+			List<ProductListItem> productListItem) {
 		this.pagingInfo=pagingInfo;
-		this.products=products;
+		this.productListItem=productListItem;
 	}
-	
+
 	@Override
 	public int getFullListSize() {
 		return pagingInfo.getSize();
@@ -25,7 +25,7 @@ public class ProductPagedList implements PaginatedList {
 
 	@Override
 	public List getList() {
-		return new LinkedList<Product>(products);
+		return new LinkedList<ProductListItem>(productListItem);
 	}
 
 	@Override
@@ -50,7 +50,8 @@ public class ProductPagedList implements PaginatedList {
 
 	@Override
 	public SortOrderEnum getSortDirection() {
-		return (pagingInfo.getOrderDir()!=null && pagingInfo.getOrderDir().equals("asc")) ? SortOrderEnum.ASCENDING : SortOrderEnum.DESCENDING;
+		return (pagingInfo.getOrderDir()!=null && pagingInfo.getOrderDir().equals("asc")) ? 
+				SortOrderEnum.ASCENDING : SortOrderEnum.DESCENDING;
 	}
 
 }
