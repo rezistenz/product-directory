@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,11 +35,17 @@ public class ProductControllerTest {
 		mockMvc.perform(get("/products"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("products/list"))
+			.andExpect(model().attributeExists("productFilter"))
+			.andExpect(model().attributeExists("pagingInfo"))
+			.andExpect(model().attributeExists("productPagedList"))
 			.andExpect(forwardedUrl("products/list"));
 		
 		mockMvc.perform(get("/products/list"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("products/list"))
+			.andExpect(model().attributeExists("productFilter"))
+			.andExpect(model().attributeExists("pagingInfo"))
+			.andExpect(model().attributeExists("productPagedList"))
 			.andExpect(forwardedUrl("products/list"));
 		
 	}

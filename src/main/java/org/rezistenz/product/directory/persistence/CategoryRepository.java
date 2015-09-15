@@ -11,4 +11,6 @@ public interface CategoryRepository extends EnityRepository<Category, Long> {
 	
 	Long findByParamsCount(Map<String, Object> params);
 
+	Collection<Category> findAll();
+
 }

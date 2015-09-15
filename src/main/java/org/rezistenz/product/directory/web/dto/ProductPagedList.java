@@ -13,7 +13,7 @@ public class ProductPagedList implements PaginatedList {
 	private Collection<ProductListItem> productListItem;
 	
 	public ProductPagedList(PagingInfo pagingInfo,
-			List<ProductListItem> productListItem) {
+			Collection<ProductListItem> productListItem) {
 		this.pagingInfo=pagingInfo;
 		this.productListItem=productListItem;
 	}

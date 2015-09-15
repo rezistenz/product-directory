@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -28,7 +28,8 @@
 <display:table 
 	list="${productPagedList}"
 	requestURI="/products/list"
-	sort="external">
+	sort="external"
+	id="item">
 	<display:column 
 		titleKey="product.id"
 		property="id" 
@@ -61,6 +62,13 @@
 		sortProperty="createDate" 
 		sortable="true" 
 		format="{0,date,dd.MM.yyyy}"/>
+	<display:column 
+		titleKey="actions">
+		<c:url var="editURL" value="/products/edit">
+			<c:param name="id" value="${item.id}"/>
+		</c:url>
+		<a href="${editURL}"><spring:message code="edit"/></a>
+	</display:column>
 </display:table>
 
 

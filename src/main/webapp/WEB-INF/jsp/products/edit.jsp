@@ -1,0 +1,79 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
+<link rel="stylesheet"href="<c:url value="/resources/css/displaytag-table.css"/>"></link>
+
+<c:url var="saveURL" value="/products/save"/>
+
+<form:form commandName="productForm" action="${saveURL}">
+	
+	<form:hidden path="id"/>
+	
+	<form:errors path="*">
+		<div class="warning alert">
+			<spring:message code="error.global" />
+		</div>
+	</form:errors>
+	
+	<table>
+		<tr>
+			<td><spring:message code="product.name"/></td>
+			<td><form:input path="name"/></td>
+			<td>
+				<form:errors path="name" htmlEscape="false" />
+			</td>
+		</tr>
+		<tr>
+			<td><spring:message code="product.description"/></td>
+			<td><form:textarea path="description"/></td>
+			<td>
+				<form:errors path="description" htmlEscape="false" />
+			</td>
+		</tr>
+		<tr>
+			<td><spring:message code="product.producer"/></td>
+			<td><form:input path="producer"/></td>
+			<td>
+				<form:errors path="producer" htmlEscape="false" />
+			</td>
+		</tr>
+		<tr>
+			<td><spring:message code="product.price"/></td>
+			<td><form:input path="price"/></td>
+			<td>
+				<form:errors path="price" htmlEscape="false" />
+			</td>
+		</tr>
+		<tr>
+			<td><spring:message code="product.createDate"/></td>
+			<td><form:input path="createDate"/></td>
+			<td>
+				<form:errors path="createDate" htmlEscape="false" />
+			</td>
+		</tr>
+		<tr>
+			<td><spring:message code="category.name"/></td>
+			<td>
+				<form:select path="categoryId">
+					<form:option label="..." value="0"/>
+					<form:options 
+						items="${categories}" 
+						itemLabel="name" 
+						itemValue="id"/>
+				</form:select>
+			</td>
+			<td>
+				<form:errors path="categoryId" htmlEscape="false" />
+			</td>
+		</tr>
+		<tr>
+			<td><input type="submit" value="<spring:message code="save"/>" /></td>
+		</tr>
+	</table>
+	
+</form:form>

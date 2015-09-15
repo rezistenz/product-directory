@@ -108,4 +108,10 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 		
 		return query.getResultList();
 	}
+
+	@Override
+	public Collection<Category> findAll() {
+		return entityManager.createNamedQuery("findAll", Category.class)
+				.getResultList();
+	}
 }

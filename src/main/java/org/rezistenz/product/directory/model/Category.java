@@ -5,12 +5,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="category")
+@NamedQuery(
+		name="findAll",
+		query="select c from Category c"
+	)
 public class Category {
 	
 	@TableGenerator(
@@ -20,7 +25,7 @@ public class Category {
 			valueColumnName="value",
 			pkColumnValue="category",
 			initialValue=1000,
-			allocationSize=100
+			allocationSize=1
 		)
 	@Id
 	@GeneratedValue(

@@ -27,7 +27,7 @@ public class Product {
 			valueColumnName="value",
 			pkColumnValue="product",
 			initialValue=1000,
-			allocationSize=100
+			allocationSize=1
 		)
 	@Id
 	@GeneratedValue(
