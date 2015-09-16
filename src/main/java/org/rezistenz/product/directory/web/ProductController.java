@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/products")
 public class ProductController {
 
+	public static final int DEFAULT_PAGE_SIZE = 10;
+	
 	private static Logger log=Logger.getLogger(ProductController.class.getName());
 	
 	@Autowired
@@ -53,7 +55,7 @@ public class ProductController {
 		log.info(pagingInfo.toString());
 		
 		if(pagingInfo.getPageSize() == 0){
-			pagingInfo.setPageSize(5);
+			pagingInfo.setPageSize(DEFAULT_PAGE_SIZE);
 		}
 		if(pagingInfo.getOrderDir() == null || pagingInfo.getOrderDir().isEmpty()){
 			pagingInfo.setOrderDir("desc");

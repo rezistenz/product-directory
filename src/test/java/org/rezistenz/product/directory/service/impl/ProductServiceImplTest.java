@@ -1,16 +1,30 @@
 package org.rezistenz.product.directory.service.impl;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.logging.Logger;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.rezistenz.product.directory.model.Category;
+import org.rezistenz.product.directory.model.Product;
+import org.rezistenz.product.directory.persistence.CategoryRepository;
+import org.rezistenz.product.directory.service.CategoryService;
 import org.rezistenz.product.directory.service.ProductService;
 import org.rezistenz.product.directory.web.dto.PagingInfo;
 import org.rezistenz.product.directory.web.dto.ProductFilter;
+import org.rezistenz.product.directory.web.dto.ProductForm;
 import org.rezistenz.product.directory.web.dto.ProductListItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -34,6 +48,11 @@ public class ProductServiceImplTest {
 	
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private CategoryRepository categoryRepository;
+	
+	@PersistenceContext
+	private EntityManager em;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -128,5 +147,95 @@ public class ProductServiceImplTest {
 		log.info("countOnLastPage: "+countOnLastPage);
 		
 		assertTrue(products.size() == countOnLastPage);
+	}
+	
+	@Test
+	public void testSaveCreate() throws Exception {
+		ProductForm productForm=new ProductForm();
+		
+		productForm.setName("created product");
+		productForm.setDescription("created product description");
+		productForm.setProducer("created product producer");
+		productForm.setPrice(new BigDecimal(12345.42));
+		
+		Calendar createDateCalendar=Calendar.getInstance();
+		SimpleDateFormat sdf=new SimpleDateFormat("dd.MM.yyyy");
+		Date createDate=sdf.parse("12.04.2013");
+		createDateCalendar.setTime(createDate);
+		
+		productForm.setCreateDate(createDateCalendar);
+		
+		Category category=categoryRepository.findByPK(3L);
+		
+		assertNotNull(category);
+		
+		productForm.setCategoryId(category.getId());
+		
+		assertTrue(productForm.getId()==0L);
+		
+		productService.save(productForm);
+		
+		em.flush();
+		
+		assertTrue(productForm.getId() > 0L);
+		
+		Product product=productService.findById(productForm.getId());
+		
+		assertNotNull(product);
+		
+		assertTrue(product.getName().equals(productForm.getName()));
+		assertTrue(product.getDescription().equals(productForm.getDescription()));
+		assertTrue(product.getProducer().equals(productForm.getProducer()));
+		assertTrue(product.getPrice().equals(productForm.getPrice()));
+		assertTrue(product.getCreateDate().equals(productForm.getCreateDate()));
+		assertTrue(product.getCategory().getId().equals(productForm.getCategoryId()));
+	}
+	
+	@Test
+	public void testSaveUpdate() throws Exception {
+		
+		Product productForUpdate=productService.findById(7L);
+		
+		assertNotNull(productForUpdate);
+		
+		ProductForm productForm=new ProductForm(productForUpdate);
+		
+		productForm.setName("updated product");
+		productForm.setDescription("updated product description");
+		productForm.setProducer("updated product producer");
+		productForm.setPrice(new BigDecimal(54321.24));
+		
+		Calendar createDateCalendar=Calendar.getInstance();
+		SimpleDateFormat sdf=new SimpleDateFormat("dd.MM.yyyy");
+		Date createDate=sdf.parse("26.05.2012");
+		createDateCalendar.setTime(createDate);
+		
+		productForm.setCreateDate(createDateCalendar);
+		
+		Category category=categoryRepository.findByPK(5L);
+		
+		assertNotNull(category);
+		
+		productForm.setCategoryId(category.getId());
+		
+		assertTrue(productForm.getId() == 7L);
+		
+		productService.save(productForm);
+		
+		em.flush();
+		
+		assertTrue(productForm.getId() > 0L);
+		assertTrue(productForm.getId() == 7L);
+		
+		Product product=productService.findById(productForm.getId());
+		
+		assertNotNull(product);
+		
+		assertTrue(product.getName().equals(productForm.getName()));
+		assertTrue(product.getDescription().equals(productForm.getDescription()));
+		assertTrue(product.getProducer().equals(productForm.getProducer()));
+		assertTrue(product.getPrice().equals(productForm.getPrice()));
+		assertTrue(product.getCreateDate().equals(productForm.getCreateDate()));
+		assertTrue(product.getCategory().getId().equals(productForm.getCategoryId()));
 	}
 }

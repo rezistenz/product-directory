@@ -9,8 +9,9 @@
 <link rel="stylesheet"href="<c:url value="/resources/css/displaytag-table.css"/>"></link>
 
 <c:url var="saveURL" value="/products/save"/>
+<c:url var="cancelURL" value="/products/list"/>
 
-<form:form commandName="productForm" action="${saveURL}">
+<form:form commandName="productForm" action="${saveURL}" method="POST">
 	
 	<form:hidden path="id"/>
 	
@@ -72,8 +73,17 @@
 			</td>
 		</tr>
 		<tr>
-			<td><input type="submit" value="<spring:message code="save"/>" /></td>
+			<td colspan="3">
+				<input type="submit" value="<spring:message code="save"/>" />
+				<input type="button" value="<spring:message code="cancel"/>" onclick="btnCancelClick()"/>
+			</td>
 		</tr>
 	</table>
 	
 </form:form>
+
+<script>
+	function btnCancelClick(){
+		location.href='${cancelURL}';
+	}
+</script>

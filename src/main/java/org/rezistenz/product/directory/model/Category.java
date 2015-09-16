@@ -24,8 +24,7 @@ public class Category {
 			pkColumnName="name",
 			valueColumnName="value",
 			pkColumnValue="category",
-			initialValue=1000,
-			allocationSize=1
+			initialValue=1000
 		)
 	@Id
 	@GeneratedValue(

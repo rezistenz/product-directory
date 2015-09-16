@@ -8,21 +8,33 @@
 
 <link rel="stylesheet"href="<c:url value="/resources/css/displaytag-table.css"/>"></link>
 
+<c:url var="createURL" value="/products/create"/>
+<a href="${createURL}"><spring:message code="create"/></a>
+
+
 <c:url var="searchURL" value="/products/list"/>
 
 <form action="${searchURL}">
-	<spring:message code="category.name"/>
-	<input name="categoryName" value="${productFilter.categoryName}"/>
-	
-	<spring:message code="list.page.size"/>
-	<select name="pageSize">
-		<option value="5" ${(pagingInfo.pageSize == 5)?'selected="selected"':''}>5</option>
-		<option value="10" ${(pagingInfo.pageSize == 10)?'selected="selected"':''}>10</option>
-		<option value="15" ${(pagingInfo.pageSize == 15)?'selected="selected"':''}>15</option>
-		<option value="20" ${(pagingInfo.pageSize == 20)?'selected="selected"':''}>20</option>
-	</select>
-	
-	<input type="submit" value="<spring:message code="filter"/>" />
+	<table>
+		<tr>
+			<td><spring:message code="category.name"/></td>
+			<td><input name="categoryName" value="${productFilter.categoryName}"/></td>
+		</tr>
+		<tr>
+			<td><spring:message code="list.page.size"/></td>
+			<td>
+				<select name="pageSize">
+					<option value="5" ${(pagingInfo.pageSize == 5)?'selected="selected"':''}>5</option>
+					<option value="10" ${(pagingInfo.pageSize == 10)?'selected="selected"':''}>10</option>
+					<option value="15" ${(pagingInfo.pageSize == 15)?'selected="selected"':''}>15</option>
+					<option value="20" ${(pagingInfo.pageSize == 20)?'selected="selected"':''}>20</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2"><input type="submit" value="<spring:message code="filter"/>" /></td>
+		</tr>
+	</table>
 </form>
 
 <display:table 

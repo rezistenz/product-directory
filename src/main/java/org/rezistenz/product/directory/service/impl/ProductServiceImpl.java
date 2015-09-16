@@ -93,7 +93,11 @@ public class ProductServiceImpl implements ProductService {
 		
 		product.setCategory(category);
 		
-		product=productRepository.udpate(product);
+		if(product.getId() == null || product.getId() <= 0L){
+			product=productRepository.add(product);
+		}else{
+			product=productRepository.udpate(product);
+		}
 		
 		productForm.setId(product.getId());
 	}
